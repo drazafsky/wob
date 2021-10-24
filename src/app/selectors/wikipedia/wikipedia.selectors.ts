@@ -1,11 +1,12 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { WikipediaEdit } from "src/app/models/edit.model";
 import { WikipediaState } from "src/app/reducers/wikipedia/wikipedia.reducers";
 
 // Get the wikipedia state from the store
 export const selectWikipediaState = createFeatureSelector<WikipediaState>('wikipedia');
 
 // Get all the edits received
-export const selectEditsState = (props: { filter: string }) => {
+export const selectEditsState = (props: { fields: (keyof WikipediaEdit)[], filter: string }) => {
   return createSelector(
     selectWikipediaState,
     state => {
@@ -16,10 +17,10 @@ export const selectEditsState = (props: { filter: string }) => {
       return state.items.filter(item => {
         const strTest = new RegExp(props.filter, 'i')
 
-        return strTest.test(item.country)
-        || strTest.test(item.event)
-        || strTest.test(item.item)
-        || strTest.test(item.user)
+        const filteredTestResults = props.fields.map(field => strTest.test(item[field]))
+                              .filter(Boolean)
+        
+        return filteredTestResults.length > 0
       })
     }
   )

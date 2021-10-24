@@ -1,33 +1,43 @@
 <mat-toolbar color="accent">
-  <div fxFlex fxLayout fxLayoutAlign="center">
-    <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-      <li>
-        <wob-event-subscriber *ngIf="!isListeningToEvents" (subscribe)="isListeningToEvents = $event"></wob-event-subscriber>
-        <wob-event-unsubscriber *ngIf="isListeningToEvents" (unsubscribe)="isListeningToEvents = $event"></wob-event-unsubscriber>
-      </li>
-    </ul>
+  <div>
+    <wob-event-subscriber *ngIf="!isListeningToEvents" (subscribe)="isListeningToEvents = $event"></wob-event-subscriber>
+    <wob-event-unsubscriber *ngIf="isListeningToEvents" (unsubscribe)="isListeningToEvents = $event"></wob-event-unsubscriber>
   </div>
-  <div fxFlex fxLayout fxLayoutAlign="end">
-    <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-      <li>
-        <input #eventFilter type="text" matInput placeholder="Filter events" />
-      </li>
-    </ul>
+  <div fxFlex fxLayout="row" fxLayoutAlign="end">
+    <mat-form-field appearance="legacy">
+      <mat-label>Filter Field(s)</mat-label>
+      <mat-select multiple [formControl]="filterFields" placeholder="Filter Field(s)">
+        <mat-select-trigger>
+          {{filterFields.value ? filterFields.value[0] : ''}}
+          <span *ngIf="filterFields.value?.length > 1" class="example-additional-selection">
+            (+{{filterFields.value.length - 1}} {{filterFields.value?.length === 2 ? 'other' : 'others'}})
+          </span>
+        </mat-select-trigger>
+        <mat-option value="country">Language</mat-option>
+        <mat-option value="event">Event Type</mat-option>
+        <mat-option value="item">Page Title</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Filter Events</mat-label>
+      <input #eventFilter type="text" matInput placeholder="Filter Events" />
+    </mat-form-field>
   </div>
 </mat-toolbar>
 
 <mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="Country">
-    <mat-header-cell *matHeaderCellDef> Country </mat-header-cell>
-    <mat-cell *matCellDef="let event" data-label="Country"> {{event.country}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef> Language </mat-header-cell>
+    <mat-cell *matCellDef="let event" data-label="Language"> {{event.country}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="Event">
-    <mat-header-cell *matHeaderCellDef> Event </mat-header-cell>
-    <mat-cell *matCellDef="let event" data-label="Event"> {{event.event}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef> Event Type </mat-header-cell>
+    <mat-cell *matCellDef="let event" data-label="Event Type"> {{event.event}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="Item">
-    <mat-header-cell *matHeaderCellDef> Item </mat-header-cell>
-    <mat-cell *matCellDef="let event" data-label="Item"> {{event.item}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef> Page Title </mat-header-cell>
+    <mat-cell *matCellDef="let event" data-label="Page Title"> {{event.item}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="Link">
     <mat-header-cell *matHeaderCellDef> Link </mat-header-cell>

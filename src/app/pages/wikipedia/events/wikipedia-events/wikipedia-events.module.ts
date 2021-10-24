@@ -11,6 +11,7 @@ import { WikipediaEffects } from 'src/app/effects/wikipedia/wikipedia.effects';
 import { reducers } from 'src/app/reducers/wikipedia/wikipedia.reducers';
 import { EventSubscriberComponent } from '../../../../components/wikipedia/event-subscriber/event-subscriber.component';
 import { EventUnsubscriberComponent } from '../../../../components/wikipedia/event-unsubscriber/event-unsubscriber.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { EventUnsubscriberComponent } from '../../../../components/wikipedia/eve
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     WikipediaEventsRoutingModule,
     MaterialModule,
     HttpClientModule,

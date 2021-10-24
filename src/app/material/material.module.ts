@@ -8,6 +8,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [],
@@ -17,6 +18,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatInputModule,
     MatListModule,
     MatPaginatorModule,
+    MatSelectModule,
     MatSidenavModule,
     MatTableModule,
     MatToolbarModule,

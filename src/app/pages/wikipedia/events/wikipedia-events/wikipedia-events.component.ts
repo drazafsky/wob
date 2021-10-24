@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
@@ -20,8 +21,10 @@ export class WikipediaEventsComponent implements OnInit, OnDestroy, AfterViewIni
   @ViewChild('eventFilter', { static: true })
   private readonly eventFilter!: ElementRef
   
-  events$: Observable<ReadonlyArray<WikipediaEdit>> = this.store.select(selectEditsState({ filter: '' }))
-  subscriptions: Subscription = new Subscription();
+  events$: Observable<ReadonlyArray<WikipediaEdit>> = this.store.select(selectEditsState({ fields: [], filter: '' }))
+  eventSubscription: Subscription = new Subscription();
+
+  filterSubscriptions: Subscription = new Subscription();
 
   noData: Array<WikipediaEdit> = [<WikipediaEdit>{}]
   dataSource: MatTableDataSource<WikipediaEdit> = new MatTableDataSource<WikipediaEdit>(this.noData)
@@ -29,6 +32,8 @@ export class WikipediaEventsComponent implements OnInit, OnDestroy, AfterViewIni
   pageSizeOptions = [5, 10, 15]
   
   isListeningToEvents: boolean = false
+  
+  filterFields = new FormControl()
 
   constructor(private readonly store: Store<WikipediaState>) { }
 
@@ -37,27 +42,38 @@ export class WikipediaEventsComponent implements OnInit, OnDestroy, AfterViewIni
   } 
   
   ngAfterViewInit(): void {
-    this.subscriptions = fromEvent(this.eventFilter.nativeElement, 'keyup')
+    this.filterSubscriptions = fromEvent(this.eventFilter.nativeElement, 'keyup')
       .pipe(
           filter(Boolean),
           debounceTime(250),
           distinctUntilChanged(),
           tap(() => {
-            this.events$ = this.store.select(selectEditsState({ filter: this.eventFilter.nativeElement.value }))
+            this.events$ = this.store.select(selectEditsState({ fields: this.filterFields.value, filter: this.eventFilter.nativeElement.value }))
             this.setup()
           })
       )
       .subscribe()
+
+      this.filterSubscriptions.add(
+        this.filterFields.valueChanges.subscribe(() => {
+          this.events$ = this.store.select(selectEditsState({ fields: this.filterFields.value, filter: this.eventFilter.nativeElement.value }))
+          this.setup()
+        })
+      )
   }
   
   ngOnDestroy(): void {
-    if (this.subscriptions) {
-      this.subscriptions.unsubscribe()
+    if (this.filterSubscriptions) {
+      this.filterSubscriptions.unsubscribe()
     }
   }
   
   private setup(): void {
-    this.events$.subscribe(events => {
+    if (this.eventSubscription) {
+      this.eventSubscription.unsubscribe()
+    }
+
+    this.eventSubscription = this.events$.subscribe(events => {
       const tableEvents = [...events]
       this.dataSource = new MatTableDataSource<WikipediaEdit>(tableEvents)
       this.dataSource.paginator = this.pagniator
