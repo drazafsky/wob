@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
 
 import { EventSubscriberComponent } from './event-subscriber.component';
+
+const mockStore = {
+  
+}
 
 describe('EventSubscriberComponent', () => {
   let component: EventSubscriberComponent;
@@ -8,7 +13,13 @@ describe('EventSubscriberComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EventSubscriberComponent ]
+      declarations: [ EventSubscriberComponent ],
+      providers: [
+        {
+          provide: Store,
+          useValue: mockStore
+        }
+      ]
     })
     .compileComponents();
   });

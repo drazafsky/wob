@@ -10,7 +10,6 @@ import { environment } from 'src/environments/environment';
 })
 export class WikipediaService {
   private pageStats: Map<string, Observable<WikipediaStats>> = new Map<string, Observable<WikipediaStats>>()
-  private moduleStyles: Map<string, Observable<string>> = new Map<string, Observable<string>>()
 
   constructor(private readonly http: HttpClient) { }
   

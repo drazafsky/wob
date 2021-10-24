@@ -2,9 +2,9 @@ import { PubnubService } from '../pubnub/pubnub.service';
 import { TestBed } from '@angular/core/testing';
 
 import { WikipediaPubnubService } from './wikipedia-pubnub.service';
-import { WikipediaPubNubSubscribed, WikipediaPubNubUnsubscribed } from './wikipedia.actions';
 import { environment } from 'src/environments/environment';
 import { Store } from '@ngrx/store';
+import { WikipediaPubNubSubscribed, WikipediaPubNubUnsubscribed } from 'src/app/actions/wikipedia/wikipedia.actions';
 
 const mockPubnub = {
   addListener: jasmine.createSpy('addListener'),

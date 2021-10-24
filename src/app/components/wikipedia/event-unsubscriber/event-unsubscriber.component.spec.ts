@@ -1,6 +1,11 @@
+import { Store } from '@ngrx/store';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EventUnsubscriberComponent } from './event-unsubscriber.component';
+
+const mockStore = {
+
+}
 
 describe('EventUnsubscriberComponent', () => {
   let component: EventUnsubscriberComponent;
@@ -8,7 +13,13 @@ describe('EventUnsubscriberComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EventUnsubscriberComponent ]
+      declarations: [ EventUnsubscriberComponent ],
+      providers: [
+        {
+          provide: Store,
+          useValue: mockStore
+        }
+      ]
     })
     .compileComponents();
   });
