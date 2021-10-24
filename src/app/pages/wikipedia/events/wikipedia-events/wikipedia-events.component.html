@@ -13,32 +13,32 @@
   </div>
 </mat-toolbar>
 
-<mat-table [dataSource]="dataSource">
+<mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="Country">
     <mat-header-cell *matHeaderCellDef> Country </mat-header-cell>
-    <mat-cell *matCellDef="let event"> {{event.country}} </mat-cell>
+    <mat-cell *matCellDef="let event" data-label="Country"> {{event.country}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="Event">
     <mat-header-cell *matHeaderCellDef> Event </mat-header-cell>
-    <mat-cell *matCellDef="let event"> {{event.event}} </mat-cell>
+    <mat-cell *matCellDef="let event" data-label="Event"> {{event.event}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="Item">
     <mat-header-cell *matHeaderCellDef> Item </mat-header-cell>
-    <mat-cell *matCellDef="let event"> {{event.item}} </mat-cell>
+    <mat-cell *matCellDef="let event" data-label="Item"> {{event.item}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="Link">
     <mat-header-cell *matHeaderCellDef> Link </mat-header-cell>
-    <mat-cell *matCellDef="let event">
+    <mat-cell *matCellDef="let event" data-label="Link">
       <a href="{{ event.link }}" target="_wikipedia">{{ event.link }}</a>
     </mat-cell>
   </ng-container>
   <ng-container matColumnDef="User">
     <mat-header-cell *matHeaderCellDef> User </mat-header-cell>
-    <mat-cell *matCellDef="let event"> {{event.user}} </mat-cell>
+    <mat-cell *matCellDef="let event" data-label="User"> {{event.user}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="Stats">
     <mat-header-cell *matHeaderCellDef> Stats </mat-header-cell>
-    <mat-cell *matCellDef="let event"> {{event.stats}} </mat-cell>
+    <mat-cell *matCellDef="let event" data-label="Stats"> {{event.stats}} </mat-cell>
   </ng-container>
   
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

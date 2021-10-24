@@ -22,7 +22,7 @@ export class WikipediaEventsComponent implements OnInit {
   noData: Array<WikipediaEdit> = [<WikipediaEdit>{}]
   dataSource: MatTableDataSource<WikipediaEdit> = new MatTableDataSource<WikipediaEdit>(this.noData)
   displayedColumns = [ 'Country', 'Event', 'Item', 'Link', 'User', 'Stats' ]
-  pageSizeOptions = [10, 25, 50]
+  pageSizeOptions = [5, 10, 15]
   
   isListeningToEvents: boolean = false
 
