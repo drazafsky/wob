@@ -14,10 +14,12 @@ export const selectEditsState = (props: { filter: string }) => {
       }
       
       return state.items.filter(item => {
-        return item.country.includes(props.filter)
-        || item.event.includes(props.filter)
-        || item.item.includes(props.filter)
-        || item.user.includes(props.filter)
+        const strTest = new RegExp(props.filter, 'i')
+
+        return strTest.test(item.country)
+        || strTest.test(item.event)
+        || strTest.test(item.item)
+        || strTest.test(item.user)
       })
     }
   )
