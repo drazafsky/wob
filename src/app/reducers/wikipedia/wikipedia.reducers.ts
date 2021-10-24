@@ -1,5 +1,5 @@
 import { ActionReducerMap, createReducer, on } from '@ngrx/store';
-import { addEdit, getPageStats, openPageStats, subscribeEdits, unsubscribeEdits } from 'src/app/actions/wikipedia/wikipedia.actions';
+import { addEdit, getPageStats, updatePageStats, subscribeEdits, unsubscribeEdits } from 'src/app/actions/wikipedia/wikipedia.actions';
 import { WikipediaEdit } from 'src/app/models/edit.model';
 import { WikipediaStats } from 'src/app/models/stats.model';
 
@@ -26,10 +26,10 @@ const initialState: Readonly<WikipediaState> = {
 // Reducer for handling edits
 export const editsReducer = createReducer(
   initialState.items,
-  on(addEdit, (state, { item }) => {
+  on(addEdit, (state, { edit }) => {
     const modifiedEdit: WikipediaEdit = {
-      ...item,
-      country: item.country.substr(1, 2)
+      ...edit,
+      country: edit.country.substr(1, 2)
     }
     return [...state, modifiedEdit]
   }),
@@ -52,7 +52,7 @@ export const subscriptionReducer = createReducer(
 export const pageStatsReducer = createReducer(
   initialState.pageStats,
   on(getPageStats, (state, stats) => stats),
-  on(openPageStats, (state, { stats }) => stats),
+  on(updatePageStats, (state, { stats }) => stats),
 )
   
 // Specify reducers for each property of the module state

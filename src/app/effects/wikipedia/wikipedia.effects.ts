@@ -1,8 +1,10 @@
+import { WikipediaEdit } from 'src/app/models/edit.model';
+import { WikipediaAddEdit, updatePageStats } from './../../actions/wikipedia/wikipedia.actions';
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { catchError, exhaustMap, map } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { ObservableInput, of } from 'rxjs';
-import { openPageStats, WikipediaGetPageStats, WikipediaSubscribe, WikipediaUnsubscribe } from "src/app/actions/wikipedia/wikipedia.actions";
+import { WikipediaSubscribe, WikipediaUnsubscribe } from "src/app/actions/wikipedia/wikipedia.actions";
 import { WikipediaPubnubService } from "src/app/services/wikipedia/wikipedia-pubnub.service";
 import { WikipediaService } from "src/app/services/wikipedia/wikipedia.service";
 
@@ -21,10 +23,11 @@ export class WikipediaEffects {
   );
   
   getStats$ = createEffect(() => this.actions$.pipe(
-    ofType(WikipediaGetPageStats),
-    exhaustMap(({ title }) => this.wikipediaService.getPageContent(title)),
-    map(stats => openPageStats({ stats: stats })),
-    catchError(err => this.handleError(err))
+    ofType(WikipediaAddEdit),
+    switchMap((props: { edit: WikipediaEdit }) => this.wikipediaService.getPageContent(props.edit.item).pipe(
+      map(stats => updatePageStats({ stats })),
+      catchError(err => this.handleError(err))
+    )),
   ))
   
   constructor(

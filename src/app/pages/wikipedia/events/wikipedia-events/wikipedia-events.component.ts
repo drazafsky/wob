@@ -70,6 +70,7 @@ export class WikipediaEventsComponent implements OnInit, OnDestroy, AfterViewIni
   
   private setup(): void {
     if (this.eventSubscription) {
+      // Needed to stop firing events for previous filter options
       this.eventSubscription.unsubscribe()
     }
 

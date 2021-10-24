@@ -29,6 +29,6 @@ export class WikipediaPubnubService {
   }
   
   private handleMessage(message: Pubnub.MessageEvent): void {
-    this.store.dispatch(addEdit({ item: message.message }));
+    this.store.dispatch(addEdit({ edit: message.message }));
   }
 }

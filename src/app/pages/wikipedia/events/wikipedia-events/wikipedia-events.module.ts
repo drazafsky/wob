@@ -1,3 +1,4 @@
+import { ChartsModule } from './../../../../components/charts/charts.module';
 import { MaterialModule } from './../../../../material/material.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -26,7 +27,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MaterialModule,
     HttpClientModule,
     StoreModule.forFeature('wikipedia', reducers),
-    EffectsModule.forFeature([WikipediaEffects])
+    EffectsModule.forFeature([WikipediaEffects]),
+    ChartsModule,
   ]
 })
 export class WikipediaEventsModule { }
