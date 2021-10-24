@@ -1,0 +1,48 @@
+<mat-toolbar color="accent">
+  <div fxFlex fxLayout fxLayoutAlign="center">
+      <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+          <li>
+              <button mat-icon-button (click)="onStartEvents()" *ngIf="!isListeningToEvents">
+                <mat-icon>play_arrow</mat-icon>Listen To Events
+              </button>
+              <button mat-icon-button (click)="onStopEvents()" *ngIf="isListeningToEvents">
+                <mat-icon>stop</mat-icon>Stop Listening
+              </button>
+          </li>
+      </ul>
+  </div>
+</mat-toolbar>
+
+<mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="Country">
+    <mat-header-cell *matHeaderCellDef> Country </mat-header-cell>
+    <mat-cell *matCellDef="let event"> {{event.country}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="Event">
+    <mat-header-cell *matHeaderCellDef> Event </mat-header-cell>
+    <mat-cell *matCellDef="let event"> {{event.event}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="Item">
+    <mat-header-cell *matHeaderCellDef> Item </mat-header-cell>
+    <mat-cell *matCellDef="let event"> {{event.item}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="Link">
+    <mat-header-cell *matHeaderCellDef> Link </mat-header-cell>
+    <mat-cell *matCellDef="let event">
+      <a href="{{ event.link }}" target="_wikipedia">{{ event.link }}</a>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="User">
+    <mat-header-cell *matHeaderCellDef> User </mat-header-cell>
+    <mat-cell *matCellDef="let event"> {{event.user}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="Stats">
+    <mat-header-cell *matHeaderCellDef> Stats </mat-header-cell>
+    <mat-cell *matCellDef="let event"> {{event.stats}} </mat-cell>
+  </ng-container>
+  
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<mat-paginator #eventPaginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons aria-label="Select page"></mat-paginator>
