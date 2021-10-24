@@ -1,0 +1,11 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav role="navigation">
+    <wob-sidenav-list (sidenavClose)="sidenav.close()"></wob-sidenav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <wob-header (sidenavToggle)="sidenav.toggle()"></wob-header> 
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
