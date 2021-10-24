@@ -43,6 +43,7 @@
   <ng-container matColumnDef="Link">
     <mat-header-cell *matHeaderCellDef> Link </mat-header-cell>
     <mat-cell *matCellDef="let event" data-label="Link">
+      <mat-icon>open_in_new</mat-icon>
       <a href="{{ event.link }}" target="_wikipedia">{{ event.link }}</a>
     </mat-cell>
   </ng-container>
