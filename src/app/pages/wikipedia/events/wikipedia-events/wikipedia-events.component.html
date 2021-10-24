@@ -53,7 +53,9 @@
   </ng-container>
   <ng-container matColumnDef="Stats">
     <mat-header-cell *matHeaderCellDef> Stats </mat-header-cell>
-    <mat-cell *matCellDef="let event" data-label="Stats"> {{event.stats}} </mat-cell>
+    <mat-cell *matCellDef="let event" data-label="Stats">
+      <a [routerLink]="['wikipeida', event.item, 'stats']">View Stats</a>
+    </mat-cell>
   </ng-container>
   
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
