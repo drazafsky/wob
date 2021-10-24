@@ -3,7 +3,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { subscribeEdits, unsubscribeEdits } from 'src/app/actions/wikipedia/wikipedia.actions';
 import { WikipediaEdit } from 'src/app/models/edit.model';
 import { WikipediaState } from 'src/app/reducers/wikipedia/wikipedia.reducers';
 import { selectEditsState } from 'src/app/selectors/wikipedia/wikipedia.selectors';
@@ -34,15 +33,5 @@ export class WikipediaEventsComponent implements OnInit {
       this.dataSource = new MatTableDataSource<WikipediaEdit>(tableEvents)
       this.dataSource.paginator = this.pagniator
     })
-  }
-  
-  onStartEvents() {
-    this.isListeningToEvents = true
-    return this.store.dispatch(subscribeEdits())
-  }
-
-  onStopEvents() {
-    this.isListeningToEvents = false
-    return this.store.dispatch(unsubscribeEdits())
-  }
+  } 
 }
