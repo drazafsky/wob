@@ -11,17 +11,17 @@ import { BaseType } from 'd3';
 export class ScatterPlotComponent implements OnInit {
   private _data: ReadonlyArray<ComputedWikipediaStats> = []
   @Input('data')
-  set data(values: ReadonlyArray<ComputedWikipediaStats>) {
-    if (values.length > 0) {
-      this._data = values
-      this.drawChart()
-    } else {
+  set data(values: ReadonlyArray<ComputedWikipediaStats> | null) {
+    if (values === null || values.length < 1) {
       this._data = [] 
       this.clear()
+    } else {
+      this._data = values
+      this.drawChart()
     }
   }
   
-  get data(): ReadonlyArray<ComputedWikipediaStats> {
+  get data(): ReadonlyArray<ComputedWikipediaStats> | null {
     return this._data
   }
   

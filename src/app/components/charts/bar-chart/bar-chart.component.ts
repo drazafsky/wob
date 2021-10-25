@@ -11,10 +11,12 @@ import { BaseType } from 'd3';
 export class BarChartComponent implements OnInit {
   private _data: Map<string, number> = new Map<string, number>()
   @Input('data')
-  set data(values: ReadonlyArray<ComputedWikipediaStats>) {
+  set data(values: ReadonlyArray<ComputedWikipediaStats> | null) {
     this._data.clear()
-
-    if (values.length > 0) {
+    
+    if (values === null || values.length < 1) {
+      this.clear()
+    } else {
       values.forEach(stat => stat.categories
         .forEach(category => {
           if (this._data.has(category)) {
@@ -26,8 +28,6 @@ export class BarChartComponent implements OnInit {
         })
       )
       this.drawChart()
-    } else {
-      this.clear()
     }
   }
 
@@ -106,13 +106,13 @@ export class BarChartComponent implements OnInit {
     const barRects = binGroups.append("rect")
       .attr("x", d => xScale(d?.x0 || 0) + this.barPadding / 2)
       .attr("y", d => yScale(this.yAccessor(d)))
-      .attr("width", d => d3.max([0, (xScale(d.x1) - xScale(d.x0) - this.barPadding)]) || 0)
+      .attr("width", d => d3.max([0, (xScale(d?.x1 || 0) - xScale(d?.x0 || 0) - this.barPadding)]) || 0)
       .attr("height", d => this.dimensions.boundedHeight - yScale(this.yAccessor(d)))
       .attr("fill", "cornflowerblue")
       
     const barText = binGroups.filter(d => this.yAccessor(d) != 0)
       .append("text")
-        .attr("x", d => xScale(d.x0) + (xScale(d.x1) - xScale(d.x0)) / 2)
+        .attr("x", d => xScale(d?.x0 || 0) + (xScale(d?.x1 || 0) - xScale(d?.x0 || 0)) / 2)
         .attr("y", d => yScale(this.yAccessor(d)) - 5)
         .text(this.yAccessor)
         .style("text-anchor", "middle")
@@ -122,6 +122,7 @@ export class BarChartComponent implements OnInit {
         .attr("class", "bar-label")
     
     const mean = d3.mean(categoryDataArray, this.xAccessor)
+    if (mean === undefined) return
     const meanLine = this.svg.append("line")
       .attr("x1", xScale(mean))
       .attr("x2", xScale(mean))
