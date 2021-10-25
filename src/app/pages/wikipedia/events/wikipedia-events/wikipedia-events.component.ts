@@ -28,7 +28,7 @@ export class WikipediaEventsComponent implements OnInit, OnDestroy, AfterViewIni
   eventSubscription: Subscription = new Subscription()
   
   // Used for listening for updates to page stats
-  stats$: Observable<ReadonlyArray<ComputedWikipediaStats>> = this.store.select(selectPageStats)
+  stats$: Observable<ReadonlyArray<ComputedWikipediaStats>> = this.store.select(selectPageStats({ fields: [], filter: '' }))
 
   // Track subscriptions to filter events for memory cleanup
   filterSubscriptions: Subscription = new Subscription()
@@ -59,6 +59,7 @@ export class WikipediaEventsComponent implements OnInit, OnDestroy, AfterViewIni
           distinctUntilChanged(),
           tap(() => {
             this.events$ = this.store.select(selectEditsState({ fields: this.filterFields.value, filter: this.eventFilter.nativeElement.value }))
+            this.stats$ = this.store.select(selectPageStats({ fields: this.filterFields.value, filter: this.eventFilter.nativeElement.value }))
             this.setup()
           })
       )
@@ -67,6 +68,7 @@ export class WikipediaEventsComponent implements OnInit, OnDestroy, AfterViewIni
       this.filterSubscriptions.add(
         this.filterFields.valueChanges.subscribe(() => {
           this.events$ = this.store.select(selectEditsState({ fields: this.filterFields.value, filter: this.eventFilter.nativeElement.value }))
+          this.stats$ = this.store.select(selectPageStats({ fields: this.filterFields.value, filter: this.eventFilter.nativeElement.value }))
           this.setup()
         })
       )

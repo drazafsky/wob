@@ -11,14 +11,17 @@ import { BaseType } from 'd3';
 export class BarChartComponent implements OnInit {
   private _data: ReadonlyArray<ComputedWikipediaStats> = []
   @Input('data')
-  set data(values: ReadonlyArray<ComputedWikipediaStats> | null) {
-    if (values) {
+  set data(values: ReadonlyArray<ComputedWikipediaStats>) {
+    if (values.length > 0) {
       this._data = values
       this.drawChart()
+    } else {
+      this._data = [] 
+      this.clear()
     }
   }
   
-  get data(): ReadonlyArray<ComputedWikipediaStats> | null {
+  get data(): ReadonlyArray<ComputedWikipediaStats> {
     return this._data
   }
   
@@ -154,6 +157,10 @@ export class BarChartComponent implements OnInit {
       .text("# Categories")
         .style("transform", "rotate(-90deg)")
         .style("text-anchor", "middle")
+  }
+  
+  private clear() {
+    this.svg.selectAll("circle").remove()
   }
   
   private calculateDimensions() {
