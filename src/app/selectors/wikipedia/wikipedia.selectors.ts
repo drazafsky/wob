@@ -1,3 +1,4 @@
+import { WikipediaStats } from 'src/app/models/stats.model';
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { WikipediaEdit } from "src/app/models/edit.model";
 import { WikipediaState } from "src/app/reducers/wikipedia/wikipedia.reducers";
@@ -14,16 +15,22 @@ export const selectEditsState = (props: { fields: (keyof WikipediaEdit)[], filte
         return state.items
       }
       
-      let fields: string[] = Object.keys(state.items[0])
-      if (props.fields) {
+      const strTest = new RegExp(props.filter, 'i')
+
+      if (!props.fields || props?.fields?.length < 1) {
         // No fields selected so compare on all fields
-        fields = props.fields
+        return state.items.filter(item => {
+          const keys = Object.keys(item) as Array<keyof typeof item>
+          const filteredTestResults = keys.map(field => strTest.test(item[field]))
+                              .filter(Boolean)
+        
+          return filteredTestResults.length > 0
+        })
       }
       
+      // Filter on selected fields only
       return state.items.filter(item => {
-        const strTest = new RegExp(props.filter, 'i')
-
-        const filteredTestResults = fields.map(field => strTest.test(item[field]))
+        const filteredTestResults = props.fields.map(field => strTest.test(item[field]))
                               .filter(Boolean)
         
         return filteredTestResults.length > 0
