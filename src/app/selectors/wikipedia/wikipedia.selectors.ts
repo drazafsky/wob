@@ -14,10 +14,16 @@ export const selectEditsState = (props: { fields: (keyof WikipediaEdit)[], filte
         return state.items
       }
       
+      let fields: string[] = Object.keys(state.items[0])
+      if (props.fields) {
+        // No fields selected so compare on all fields
+        fields = props.fields
+      }
+      
       return state.items.filter(item => {
         const strTest = new RegExp(props.filter, 'i')
 
-        const filteredTestResults = props.fields.map(field => strTest.test(item[field]))
+        const filteredTestResults = fields.map(field => strTest.test(item[field]))
                               .filter(Boolean)
         
         return filteredTestResults.length > 0
