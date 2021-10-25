@@ -101,18 +101,21 @@ export class BarChartComponent implements OnInit {
     dots
       .on("mouseenter", (e: MouseEvent, datum: unknown) => {
         const data = <ComputedWikipediaStats> datum
-        console.log('mouseenter', { e, data })
+
+        this.tooltip?.select("#page-title")
+            .text(data.title)
+
         this.tooltip?.select("#category-count")
             .text(data.categories.length)
 
        this.tooltip?.select("#word-count")
             .text(data.wordCount)
          
-        const x = xScale(this.xAccessor(data))
-        const y = yScale(this.yAccessor(data))
+        const x = xScale(this.xAccessor(data)) + this.dimensions.margin.left
+        const y = yScale(this.yAccessor(data)) + this.dimensions.margin.top
         
         this.tooltip
-          ?.style("transform", `translate(calc(${x}px), calc(${y}px))`)
+          ?.style("transform", `translate(calc(-46% + ${x}px), calc(70% + ${y}px))`)
           .style("opacity", 0.8)
       })
       .on("mouseleave", () => {
