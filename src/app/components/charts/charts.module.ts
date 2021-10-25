@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BarChartComponent } from './bar/bar-chart.component';
+import { ScatterPlotComponent } from './scatter/scatter-plot.component';
 
 @NgModule({
   declarations: [
-    BarChartComponent
+    ScatterPlotComponent
   ],
   imports: [
     CommonModule,
   ],
   exports: [
-    BarChartComponent
+    ScatterPlotComponent
   ]
 })
 export class ChartsModule { }

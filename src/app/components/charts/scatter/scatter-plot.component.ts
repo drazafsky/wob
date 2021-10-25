@@ -4,11 +4,11 @@ import * as d3 from 'd3';
 import { BaseType } from 'd3';
 
 @Component({
-  selector: 'wob-bar-chart',
-  templateUrl: './bar-chart.component.html',
-  styleUrls: ['./bar-chart.component.scss']
+  selector: 'wob-scatter-plot',
+  templateUrl: './scatter-plot.component.html',
+  styleUrls: ['./scatter-plot.component.scss']
 })
-export class BarChartComponent implements OnInit {
+export class ScatterPlotComponent implements OnInit {
   private _data: ReadonlyArray<ComputedWikipediaStats> = []
   @Input('data')
   set data(values: ReadonlyArray<ComputedWikipediaStats>) {
@@ -54,7 +54,7 @@ export class BarChartComponent implements OnInit {
   private setup(): void {
     this.calculateDimensions()
     
-    const wrapper = d3.select("#bar-chart-wrapper")
+    const wrapper = d3.select("#scatter-plot-wrapper")
       .append("svg")
         .attr("width", this.dimensions.width)
         .attr("height", this.dimensions.height)
@@ -63,7 +63,7 @@ export class BarChartComponent implements OnInit {
       .append("g")
         .style("transform", `translate(${this.dimensions.margin.left}px, ${this.dimensions.margin.top}px)`)
 
-    this.tooltip = d3.select("#bar-chart-tooltip")
+    this.tooltip = d3.select("#scatter-plot-tooltip")
   }
 
   private drawChart() {

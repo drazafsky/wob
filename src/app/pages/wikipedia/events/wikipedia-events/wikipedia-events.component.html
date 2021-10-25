@@ -27,7 +27,7 @@
   </div>
 </mat-toolbar>
 
-<wob-bar-chart [data]="stats$ | async"></wob-bar-chart>
+<wob-scatter-plot [data]="stats$ | async"></wob-scatter-plot>
 
 <mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="Country">
