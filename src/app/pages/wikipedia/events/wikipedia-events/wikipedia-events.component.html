@@ -3,7 +3,7 @@
     <wob-event-subscriber *ngIf="!isListeningToEvents" (subscribe)="isListeningToEvents = $event"></wob-event-subscriber>
     <wob-event-unsubscriber *ngIf="isListeningToEvents" (unsubscribe)="isListeningToEvents = $event"></wob-event-unsubscriber>
   </div>
-  <div fxFlex fxLayout="row" fxLayoutAlign="end">
+  <div>
     <mat-form-field appearance="legacy">
       <mat-label>Filter Field(s)</mat-label>
       <mat-select multiple [formControl]="filterFields" placeholder="Filter Field(s)">
@@ -27,7 +27,14 @@
   </div>
 </mat-toolbar>
 
-<wob-scatter-plot [data]="stats$ | async"></wob-scatter-plot>
+<div>
+  <div class="chart-wrapper">
+    <wob-scatter-plot [data]="stats$ | async"></wob-scatter-plot>
+  </div>
+  <div class="chart-wrapper">
+    <wob-bar-chart [data]="stats$ | async"></wob-bar-chart>
+  </div>
+</div>
 
 <mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="Country">
