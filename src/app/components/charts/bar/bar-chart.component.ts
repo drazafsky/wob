@@ -109,7 +109,7 @@ export class BarChartComponent implements OnInit {
             .text(data.categories.length)
 
        this.tooltip?.select("#word-count")
-            .text(data.wordCount)
+            .text(data.wordCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
          
         const x = xScale(this.xAccessor(data)) + this.dimensions.margin.left
         const y = yScale(this.yAccessor(data)) + this.dimensions.margin.top
