@@ -38,11 +38,30 @@ export class WikipediaService extends BackendService {
     const stats = this.invoke(url.toString(), 'GET')
       .pipe(
         map((response: WikipediaStatsResponse) => {
+          if (response?.error) {
+            return {
+              pageid: 0,
+              title: '',
+              text: '',
+              categories: [],
+            }
+          }
+
           this.pageStats.set(pageTitle, response.parse)
           return response.parse
         })
       )    
 
     return stats
+  }
+  
+  getStats(): Array<WikipediaStats> {
+    let ret: Array<WikipediaStats> = []
+    
+    for (let [key, value] of this.pageStats) {
+      ret.push(value)
+    }
+    
+    return ret
   }
 }

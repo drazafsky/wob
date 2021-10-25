@@ -13,4 +13,15 @@ export interface WikipediaStats {
 
 export interface WikipediaStatsResponse {
   parse: WikipediaStats
+  error: {
+    code: string,
+    info: string
+  }
+}
+
+export interface ComputedWikipediaStats {
+  wordCount: Readonly<number>,
+  categories: ReadonlyArray<string>,
+  title: Readonly<string>,
+  id: Readonly<number>
 }

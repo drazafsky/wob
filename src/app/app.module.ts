@@ -1,3 +1,6 @@
+import { environment } from 'src/environments/environment';
+import { WikipediaCachedService } from './services/wikipedia/wikipedia-cached.service';
+import { WikipediaPubnubService } from 'src/app/services/wikipedia/wikipedia-pubnub.service';
 import { MaterialModule } from './material/material.module';
 import { SafePipe } from './pipes/safe.pipe';
 import { NgModule } from '@angular/core';
@@ -33,7 +36,12 @@ import { HttpClientModule } from '@angular/common/http';
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: WikipediaPubnubService,
+      useClass: environment.pubnub.wikipedia.useCachedEvents ? WikipediaCachedService : WikipediaPubnubService
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

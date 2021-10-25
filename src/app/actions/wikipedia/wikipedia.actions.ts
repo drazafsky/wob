@@ -22,10 +22,10 @@ export const WikipediaUpdatePageStats = '[Wikipedia Service] Update Page Stats'
 
 export const getPageStats = createAction(
   WikipediaGetPageStats,
-  props<WikipediaStats>(),
+  props<ReadonlyArray<WikipediaStats>>(),
 )
 
 export const updatePageStats = createAction(
   WikipediaUpdatePageStats,
-  props<{ stats: WikipediaStats }>()
+  props<{ stats: ReadonlyArray<WikipediaStats> }>()
 )

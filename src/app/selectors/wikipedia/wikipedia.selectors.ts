@@ -41,5 +41,18 @@ export const selectSubscriptionState = createSelector(
 // Get selected page stats
 export const selectPageStats = createSelector(
   selectWikipediaState,
-  state => state.pageStats
+  state => {
+    const domParser = new DOMParser()
+
+    return state.pageStats.map(pageStat => {
+      const wordCount = domParser.parseFromString(pageStat.text, 'text/html').documentElement.textContent?.split(' ').length
+
+      return {
+        wordCount: wordCount ? wordCount - 1 : 0,
+        categories: pageStat.categories.map(category => category.category),
+        title: pageStat.title,
+        id: pageStat.pageid
+      }
+    })
+  }
 )

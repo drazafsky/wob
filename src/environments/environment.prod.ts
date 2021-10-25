@@ -3,7 +3,8 @@ export const environment = {
   pubnub: {
     wikipedia: {
       subscriptionKey: 'sub-c-b0d14910-0601-11e4-b703-02ee2ddab7fe',
-      channels: [ 'pubnub-wikipedia' ]
+      channels: [ 'pubnub-wikipedia' ],
+      useCachedEvents: false
     }
   },
   wikipedia: {

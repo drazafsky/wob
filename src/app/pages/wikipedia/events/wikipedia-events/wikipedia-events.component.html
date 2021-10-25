@@ -27,6 +27,8 @@
   </div>
 </mat-toolbar>
 
+<wob-bar-chart [data]="stats$ | async"></wob-bar-chart>
+
 <mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="Country">
     <mat-header-cell *matHeaderCellDef> Language </mat-header-cell>
@@ -63,5 +65,3 @@
 </mat-table>
 
 <mat-paginator #eventPaginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons aria-label="Select page"></mat-paginator>
-
-<wob-bar-chart></wob-bar-chart>

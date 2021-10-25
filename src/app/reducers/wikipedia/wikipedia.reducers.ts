@@ -8,19 +8,19 @@ export interface WikipediaState {
   items: ReadonlyArray<WikipediaEdit>,
   totalCount: number,
   subscribed: boolean,
-  pageStats: WikipediaStats,
+  pageStats: ReadonlyArray<WikipediaStats>,
 }
 
 const initialState: Readonly<WikipediaState> = {
   items: [],
   totalCount: 0,
   subscribed: false,
-  pageStats: {
+  pageStats: [{
     title: '',
     pageid: 0,
     text: '',
     categories: [],
-  },
+  }],
 }
 
 // Reducer for handling edits

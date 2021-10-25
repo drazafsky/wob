@@ -1,11 +1,13 @@
+import { selectPageStats } from './../../../../selectors/wikipedia/wikipedia.selectors';
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
-import { fromEvent, Observable, Subscription } from 'rxjs';
+import { fromEvent, Observable, of, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs/operators';
 import { WikipediaEdit } from 'src/app/models/edit.model';
+import { ComputedWikipediaStats, WikipediaStats } from 'src/app/models/stats.model';
 import { WikipediaState } from 'src/app/reducers/wikipedia/wikipedia.reducers';
 import { selectEditsState } from 'src/app/selectors/wikipedia/wikipedia.selectors';
 
@@ -21,18 +23,26 @@ export class WikipediaEventsComponent implements OnInit, OnDestroy, AfterViewIni
   @ViewChild('eventFilter', { static: true })
   private readonly eventFilter!: ElementRef
   
+  // Used for listening for new edits
   events$: Observable<ReadonlyArray<WikipediaEdit>> = this.store.select(selectEditsState({ fields: [], filter: '' }))
-  eventSubscription: Subscription = new Subscription();
+  eventSubscription: Subscription = new Subscription()
+  
+  // Used for listening for updates to page stats
+  stats$: Observable<ReadonlyArray<ComputedWikipediaStats>> = this.store.select(selectPageStats)
 
-  filterSubscriptions: Subscription = new Subscription();
+  // Track subscriptions to filter events for memory cleanup
+  filterSubscriptions: Subscription = new Subscription()
 
+  // Configure data table
   noData: Array<WikipediaEdit> = [<WikipediaEdit>{}]
   dataSource: MatTableDataSource<WikipediaEdit> = new MatTableDataSource<WikipediaEdit>(this.noData)
   displayedColumns = [ 'Country', 'Event', 'Item', 'Link', 'User', 'Stats' ]
   pageSizeOptions = [5, 10, 15]
   
+  // Display the start or stop buttons
   isListeningToEvents: boolean = false
   
+  // What fields of an edit to match the filter against
   filterFields = new FormControl()
 
   constructor(private readonly store: Store<WikipediaState>) { }
@@ -65,6 +75,10 @@ export class WikipediaEventsComponent implements OnInit, OnDestroy, AfterViewIni
   ngOnDestroy(): void {
     if (this.filterSubscriptions) {
       this.filterSubscriptions.unsubscribe()
+    }
+    
+    if (this.eventSubscription) {
+      this.eventSubscription.unsubscribe()
     }
   }
   
