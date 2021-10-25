@@ -36,7 +36,7 @@ export class WikipediaEventsComponent implements OnInit, OnDestroy, AfterViewIni
   // Configure data table
   noData: Array<WikipediaEdit> = [<WikipediaEdit>{}]
   dataSource: MatTableDataSource<WikipediaEdit> = new MatTableDataSource<WikipediaEdit>(this.noData)
-  displayedColumns = [ 'Country', 'Event', 'Item', 'Link', 'User', 'Stats' ]
+  displayedColumns = [ 'Country', 'Event', 'Item', 'Link', 'User' ]
   pageSizeOptions = [5, 10, 15]
   
   // Display the start or stop buttons
