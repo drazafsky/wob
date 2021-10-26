@@ -50,7 +50,9 @@ export class WikipediaService extends BackendService {
           this.pageStats.set(pageTitle, response.parse)
           return response.parse
         })
-      )    
+      )
+
+    const statSub = stats.subscribe(() => statSub.unsubscribe())
 
     return stats
   }

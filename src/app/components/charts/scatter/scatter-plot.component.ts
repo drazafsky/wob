@@ -17,8 +17,9 @@ export class ScatterPlotComponent implements OnInit {
       this.clear()
     } else {
       this._data = values
-      this.drawChart()
     }
+
+    this.drawChart()
   }
   
   get data(): ReadonlyArray<ComputedWikipediaStats> | null {

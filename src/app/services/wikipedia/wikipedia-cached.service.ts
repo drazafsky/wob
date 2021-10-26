@@ -28,7 +28,7 @@ export class WikipediaCachedService {
             // delay each element by 1 sec
             concatMap(x => of(x)
               .pipe(
-                delay(Math.random() * (1250 - 2 + 1) + 2)
+                delay(Math.random() * (250 - 2 + 1) + 2)
               )
             )
           )

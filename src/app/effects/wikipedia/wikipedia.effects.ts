@@ -25,18 +25,19 @@ export class WikipediaEffects {
   getStats$ = createEffect(() => this.actions$.pipe(
     ofType(WikipediaAddEdit),
     switchMap((props: { edit: WikipediaEdit }) => this.wikipediaService.getPageContent(props.edit.item)
-    .pipe(
-      map(stats => {
-        const allStats = this.wikipediaService.getStats()
+      .pipe(
+        map(stats => {
+          const allStats = this.wikipediaService.getStats()
 
-        if (stats === undefined) {
-          return [...allStats]
-        }
+          if (stats === undefined) {
+            return [...allStats]
+          }
 
-        return updatePageStats({ stats: [...allStats]})
-      }),
-      catchError(err => this.handleError(err))
-    )),
+          return updatePageStats({ stats: [...allStats]})
+        }),
+        catchError(err => this.handleError(err))
+      )
+    ),
   ))
   
   constructor(

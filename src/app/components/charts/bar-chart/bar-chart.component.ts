@@ -12,10 +12,9 @@ export class BarChartComponent implements OnInit {
   private _data: Map<string, number> = new Map<string, number>()
   @Input('data')
   set data(values: ReadonlyArray<ComputedWikipediaStats> | null) {
-    this._data.clear()
-    
     if (values === null || values.length < 1) {
       this.clear()
+      this._data.clear()
     } else {
       values.forEach(stat => stat.categories
         .forEach(category => {
