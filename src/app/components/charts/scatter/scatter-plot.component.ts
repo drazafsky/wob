@@ -150,13 +150,13 @@ export class ScatterPlotComponent implements OnInit {
       .attr("id", "yaxis")
     const yAxisLabel = yAxis.append("text")
       .attr("x", -this.dimensions.boundedHeight / 2)
-      .attr("y", -this.dimensions.margin.left - 10)
+      .attr("y", -this.dimensions.margin.left / 2)
       .attr("fill", "black")
       .attr("id", "yaxis-label")
       .style("font-size", "1.4em")
+      .style("transform", "rotate(-90deg)")
+      .style("text-anchor", "middle")
       .text("# Categories")
-        .style("transform", "rotate(-90deg)")
-        .style("text-anchor", "middle")
   }
   
   private clear() {
