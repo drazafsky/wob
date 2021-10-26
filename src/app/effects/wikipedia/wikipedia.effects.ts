@@ -30,7 +30,7 @@ export class WikipediaEffects {
           const allStats = this.wikipediaService.getStats()
 
           if (stats === undefined) {
-            return [...allStats]
+            return updatePageStats({ stats: [...allStats]})
           }
 
           return updatePageStats({ stats: [...allStats]})

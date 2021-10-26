@@ -103,28 +103,8 @@ export class ScatterPlotComponent implements OnInit {
           .attr("r", 5)
           .attr("fill", d => colorScale(this.colorAccessor(d)))
     dots
-      .on("mouseenter", (e: MouseEvent, datum: unknown) => {
-        const data = <ComputedWikipediaStats> datum
-
-        this.tooltip?.select("#page-title")
-            .text(data.title)
-
-        this.tooltip?.select("#category-count")
-            .text(data.categories.length)
-
-       this.tooltip?.select("#word-count")
-            .text(data.wordCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-         
-        const x = xScale(this.xAccessor(data)) + this.dimensions.margin.left
-        const y = yScale(this.yAccessor(data)) + this.dimensions.margin.top
-        
-        this.tooltip
-          ?.style("transform", `translate(calc(-46% + ${x}px), calc(70% + ${y}px))`)
-          .style("opacity", 0.8)
-      })
-      .on("mouseleave", () => {
-        this.tooltip?.style("opacity", 0)
-      })
+      .on("mouseenter", (e: MouseEvent, datum: unknown) => this.onMouseEnter(e, datum, xScale, yScale))
+      .on("mouseleave", this.onMouseLeave.bind(this))
         
     this.svg.select("#xaxis").remove()
     this.svg.select("#xaxis-label").remove()
@@ -167,5 +147,29 @@ export class ScatterPlotComponent implements OnInit {
   private calculateDimensions() {
     this.dimensions.boundedWidth = this.dimensions.width - this.dimensions.margin.left - this.dimensions.margin.right
     this.dimensions.boundedHeight = this.dimensions.height - this.dimensions.margin.top - this.dimensions.margin.bottom
+  }
+  
+  private onMouseEnter(e: MouseEvent, datum: unknown, xScale: d3.ScaleLinear<number, number, never>, yScale: d3.ScaleLinear<number, number, never>) {
+    const data = <ComputedWikipediaStats> datum
+
+    this.tooltip?.select("#page-title")
+        .text(data.title)
+
+    this.tooltip?.select("#category-count")
+        .text(data.categories.length)
+
+   this.tooltip?.select("#word-count")
+        .text(data.wordCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+     
+    const x = xScale(this.xAccessor(data)) + this.dimensions.margin.left
+    const y = yScale(this.yAccessor(data)) + this.dimensions.margin.top
+    
+    this.tooltip
+      ?.style("transform", `translate(calc(-46% + ${x}px), calc(70% + ${y}px))`)
+      .style("opacity", 0.8)
+  }
+  
+  private onMouseLeave() {
+    this.tooltip?.style("opacity", 0)
   }
 }
